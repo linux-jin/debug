@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>网络诊断与调试</title>
+  <link rel="icon shortcut" type="image/ico" href="https://cdn.skk.moe/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.skk.moe/favicon/favicon-32x32.png">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/bulma/0.8.0/css/bulma.min.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body class="sk-bg-gray">
+  <nav class="has-shadow navbar sk-px-5 sk-py-3">
+    <div class="navbar-container">
+      <h1 class="has-text-weight-bold is-size-4 sk-valign">网络诊断与调试</h1> <button id="btn-generate-report"
+        class="button">生成截图</button>
+    </div>
+  </nav>
+  <div class="container sk-px-4 sk-py-6">
+    <div class="columns is-desktop">
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <h2 class="sk-title">IP 相关信息</h2>
+            <table class="is-fullwidth sk-mb-4 table">
+              <tbody>
+                <tr>
+                  <td class="sk-pr-0 sk-py-0">
+                    <h3 class="sk-subtitle">你的 IP 地址为</h3>
+                  </td>
+                </tr>
+                <tr>
+                  <td id="ip-cn">查询中</td>
+                  <td id="ip-cn-geo"></td>
+                </tr>
+                <tr>
+                  <td id="ip-hw">查询中</td>
+                  <td id="ip-hw-geo"></td>
+                </tr>
+              </tbody>
+            </table>
+            <p> <small>获取详细 IP 信息请前往 <a href="https://ipip.mistyhill.ml" target="_blank">ipip.mistyhill.ml</a></small>
+              <small class="sk-fr">Powered by <a href="https://ipip.mistyhill.ml"
+                  target="_blank">ipip.mistyhill.ml</a></small>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <h2 class="sk-title">DNS 相关信息</h2>
+            <table class="is-fullwidth table">
+              <tbody>
+                <tr>
+                  <td class="sk-pt-0 sk-subtitle">电信</td>
+                  <td id="dns-ct" class="sk-pt-0">查询中</td>
+                  <td id="dns-ct-geo" class="sk-pt-0"></td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">联通</td>
+                  <td id="dns-cu">查询中</td>
+                  <td id="dns-cu-geo"></td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">移动</td>
+                  <td id="dns-cm">查询中</td>
+                  <td id="dns-cm-geo"></td>
+                </tr>
+                <tr>
+                  <td class="sk-pb-0 sk-subtitle">海外</td>
+                  <td id="dns-hw" class="sk-pb-0">查询中</td>
+                  <td id="dns-hw-geo" class="sk-pb-0"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <h2 class="sk-title">Cloudflare Warp</h2>
+            <table class="is-fullwidth table">
+              <tbody>
+                <tr>
+                  <td class="sk-subtitle">启用</td>
+                  <td id="cf-warp-on"></td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">Warp Plus</td>
+                  <td id="cf-warp-plus"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card sk-mt-5" style="height:calc(100% - 170.64px)">
+          <div class="card-content">
+            <h2 class="sk-title">Cloudflare IP Threat Score</h2>
+            <p><small>测试你的 IP 当前在 Cloudflare 的声誉</small></p>
+            <div id="cf-score" style="height:75px;line-height:75px"><span style="font-size:1.5rem">正在测试中...</span></div>
+            <p><small>Cloudflare 会对每个请求进行风险评估。0 表示低风险，高于 10 代表被判定为爬虫或者垃圾邮件发送者，高于 40 代表被判定为有严重不良行为的 IP（如僵尸网络等）。这个数值一般不会大于
+                60。</small></p>
+          </div>
+        </div>
+      </div>
+      <div class="column is-three-quarters-widescreen">
+        <div class="card">
+          <div class="card-content">
+            <h2 class="sk-title">浏览器相关信息</h2>
+            <table class="is-fullwidth table">
+              <tbody id="info-list">
+                <tr>
+                  <td class="sk-subtitle">操作系统</td>
+                  <td id="info-os">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">浏览器</td>
+                  <td id="info-browser">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">User-Agent</td>
+                  <td id="info-ua">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">Cookie</td>
+                  <td id="info-cookie">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">Javascript</td>
+                  <td id="info-js">关闭</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">localStorage</td>
+                  <td id="info-ls">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">Flash</td>
+                  <td id="info-flash">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">WebP</td>
+                  <td id="info-webp">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">GPU 名称</td>
+                  <td id="info-gpu">获取中</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-tablet">
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="sk-cdn-logo"> <img src="./logo/cloudflare.png"> </div>
+            <table class="is-fullwidth table">
+              <tbody>
+                <tr>
+                  <td class="sk-subtitle">POP</td>
+                  <td id="cdn-cf-pop">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">HTTP RTT</td>
+                  <td id="cdn-cf-rtt">测试中</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="sk-cdn-logo"> <img src="./logo/fastly.png"> </div>
+            <table class="is-fullwidth table">
+              <tbody>
+                <tr>
+                  <td class="sk-subtitle">POP</td>
+                  <td id="cdn-fastly-pop">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">HTTP RTT</td>
+                  <td id="cdn-fastly-rtt">测试中</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="sk-cdn-logo"> <img src="./logo/jsdelivr.svg"> </div>
+            <table class="is-fullwidth table">
+              <tbody>
+                <tr>
+                  <td class="sk-subtitle">CDN</td>
+                  <td id="cdn-jsdelivr-cdn">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">HTTP RTT</td>
+                  <td id="cdn-jsdelivr-rtt">测试中</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="sk-cdn-logo"> <img src="./logo/cloudfront.jpg"> </div>
+            <table class="is-fullwidth table">
+              <tbody>
+                <tr>
+                  <td class="sk-subtitle">POP</td>
+                  <td id="cdn-cloudfront-pop">获取中</td>
+                </tr>
+                <tr>
+                  <td class="sk-subtitle">HTTP RTT</td>
+                  <td id="cdn-cloudfront-rtt">测试中</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column is-half-desktop is-one-third-widescreen">
+        <div class="card">
+          <div class="card-content">
+            <h2 class="sk-title">域名连接测试</h2>
+            <table class="is-fullwidth table">
+              <tbody>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">百度</span> <small
+                      class="has-text-gray">https://www.baidu.com</small></td>
+                  <td id="http-baidu"></td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">网易</span> <small
+                      class="has-text-gray">https://www.163.com</small></td>
+                  <td id="http-163"></td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">腾讯</span> <small
+                      class="has-text-gray">https://www.qq.com</small></td>
+                  <td id="http-qq"></td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">微博</span> <small
+                      class="has-text-gray">https://weibo.com</small></td>
+                  <td id="http-weibo"></td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">天猫</span> <small
+                      class="has-text-gray">https://www.tmall.com</small></td>
+                  <td id="http-tmall"></td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">Bilibili</span> <small
+                      class="has-text-gray">https://www.bilibili.com</small></td>
+                  <td id="http-bilibili"></td>
+                </tr>
+                <tr>
+                  <td class="sk-py-2">
+                    <hr class="sk-my-0">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">GitHub</span> <small
+                      class="has-text-gray">https://github.com</small></td>
+                  <td id="http-github"></td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">Telegram</span> <small
+                      class="has-text-gray">https://www.telegram.org</small></td>
+                  <td id="http-telegram"></td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">Google</span> <small
+                      class="has-text-gray">https://www.google.com</small></td>
+                  <td id="http-google"></td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">YouTube</span> <small
+                      class="has-text-gray">https://www.youtube.com</small></td>
+                  <td id="http-youtube"></td>
+                </tr>
+                <tr>
+                  <td class="sk-px-0"><span class="sk-subtitle">Twitter</span> <small
+                      class="has-text-gray">https://twitter.com</small></td>
+                  <td id="http-twitter"></td>
+                </tr>
+                <tr>
+                  <td class="sk-pb-0 sk-px-0"><span class="sk-subtitle">Facebook</span> <small
+                      class="has-text-gray">https://www.facebook.com</small></td>
+                  <td id="http-facebook"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="speedtest-container"> </div>
+            <p class="has-text-right"><small>Powered by <a href="https://www.bing.com" target="_blank"
+                  rel="external nofollow noopener noreferrer">Bing Speedtest Widget</a></small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>Copyright &copy; <span id="copyright-year"></span> <a href="https://skk.moe">Sukka</a></p>
+    </div>
+  </footer>
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <pre><code></code></pre>
+    </div> <button class="is-large modal-close" aria-label="close"></button>
+  </div>
+  <script>var jsVersion = 1; !function() { var e = (new Date).getFullYear(); document.getElementById("copyright-year").textContent = 2018 === e ? e : "2018 - " + e }();</script>
+  <script language="JavaScript">jsVersion && jsVersion < 1 && (jsVersion = 1);</script>
+  <script language="JavaScript1.1">jsVersion && jsVersion < 1.1 && (jsVersion = 1.1);</script>
+  <script language="JavaScript1.2">jsVersion && jsVersion < 1.2 && (jsVersion = 1.2);</script>
+  <script language="JavaScript1.3">jsVersion && jsVersion < 1.3 && (jsVersion = 1.3);</script>
+  <script language="JavaScript1.4">jsVersion && jsVersion < 1.4 && (jsVersion = 1.4);</script>
+  <script language="JavaScript1.5">jsVersion && jsVersion < 1.5 && (jsVersion = 1.5);</script>
+  <script language="JavaScript1.6">jsVersion && jsVersion < 1.6 && (jsVersion = 1.6);</script>
+  <script language="JavaScript1.7">jsVersion && jsVersion < 1.7 && (jsVersion = 1.7);</script>
+  <script language="JavaScript1.8">jsVersion && jsVersion < 1.8 && (jsVersion = 1.8);</script>
+  <script language="JavaScript1.9">jsVersion && jsVersion < 1.9 && (jsVersion = 1.9);</script>
+  <script>document.getElementById("info-js").textContent = "开启 (" + jsVersion + ")";</script>
+  <script src="./app.js"></script>
+</body>
+
+</html>
